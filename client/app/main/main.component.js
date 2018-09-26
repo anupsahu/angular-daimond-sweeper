@@ -49,10 +49,19 @@ export class MainController {
 
     check = (cell) => {
         console.log(cell);
-        if (_.includes(this.daimonds, cell))
+        if (_.includes(this.daimonds, cell)) {
             this.myClass[cell - 1] = 'diamond';
-        else
-            this.myClass[cell - 1] = '';
+
+            //removing the element to improve the hint functionality
+            _.remove(this.daimonds, (n) => n === cell);
+            console.log(this.daimonds);
+        } else {
+
+            //Condition added to remove the bug where if its already
+            // a daimond and user clicks again it becomes blank
+            if (this.myClass[cell - 1] != 'diamond')
+                this.myClass[cell - 1] = '';
+        }
     }
 }
 
