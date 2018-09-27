@@ -47,11 +47,16 @@ table.diamondsweeper-board td {
     background-size: 50px 50px;
 }
 
+.fa {
+    text-align: center !important;
+    font-size: 4em !important;
+}
+
 .cell.diamond {
     background-image: url(/assets/images/diamond.png);
 }
 
-.cell.arrow {
+.cell.arrow-right {
     background-image: url(/assets/images/arrow.png);
 }
 
