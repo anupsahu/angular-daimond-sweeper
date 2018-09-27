@@ -1,5 +1,9 @@
 <div class="container">
-    <div class="row messages"></div>
+    <div class="row">
+        <div class="col align-self-center">
+            Score - {{ vm.score }}
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6 align-self-center table-responsive">
             <table class="table table-bordered table-hover diamondsweeper-board">
@@ -12,6 +16,17 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col align-self-center">
+            <div class="col-md-6">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-success p-10">Save</button>
+                    <button ng-click="vm.init()" type="button" class="btn btn-danger p-10">Reset</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

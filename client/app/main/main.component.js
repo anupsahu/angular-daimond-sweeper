@@ -7,13 +7,15 @@ export class MainController {
     columns;
     cell;
     daimonds;
+    daimondCount;
     myClass = [];
+    score = 0;
     /*@ngInject*/
     constructor() {
-        this.rows = 8;
-        this.columns = 8;
+        this.rows = 4;
+        this.columns = 4;
         this.cell = 1;
-
+        this.daimondCount = 5;
         this.init();
     }
 
@@ -33,10 +35,17 @@ export class MainController {
 
 
     init = () => {
-        this.daimonds = this.randomGenerator(5);
+        this.daimonds = this.randomGenerator(this.daimondCount);
         console.log(this.daimonds);
+        this.score = 0;
         for (var i = 0; i < (this.rows * this.columns); i++) {
             this.myClass[i] = 'unknown';
+        }
+    }
+
+    save = () => {
+        if (this.score === this.daimondCount) {
+
         }
     }
 
@@ -49,19 +58,25 @@ export class MainController {
 
     check = (cell) => {
         console.log(cell);
-        if (_.includes(this.daimonds, cell)) {
-            this.myClass[cell - 1] = 'diamond';
+        if (this.daimonds.length > 0) {
+            if (_.includes(this.daimonds, cell)) {
+                this.myClass[cell - 1] = 'diamond';
+                this.score++;
+                //removing the element to improve the hint functionality
+                _.remove(this.daimonds, (n) => n === cell);
+                console.log(this.daimonds);
+            } else {
 
-            //removing the element to improve the hint functionality
-            _.remove(this.daimonds, (n) => n === cell);
-            console.log(this.daimonds);
+                //Condition added to remove the bug where if its already
+                // a daimond and user clicks again it becomes blank
+                if (this.myClass[cell - 1] != 'diamond')
+                    this.myClass[cell - 1] = '';
+            }
         } else {
-
-            //Condition added to remove the bug where if its already
-            // a daimond and user clicks again it becomes blank
-            if (this.myClass[cell - 1] != 'diamond')
-                this.myClass[cell - 1] = '';
+            alert("Game Over");
+            this.init();
         }
+
     }
 }
 
