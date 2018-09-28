@@ -61,15 +61,15 @@ table.diamondsweeper-board td {
 }
 
 .cell.diamond {
-    background-image: url('/assets/images/diamond.png');
+    background-image: url('../assets/images/diamond.png');
 }
 
 .cell.arrow-right {
-    background-image: url('/assets/images/arrow.png');
+    background-image: url('../assets/images/arrow.png');
 }
 
 .cell.unknown {
-    background-image: url('/assets/images/question.png');
+    background-image: url('../assets/images/question.png');
 }
 
 
