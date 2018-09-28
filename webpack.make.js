@@ -34,7 +34,7 @@ module.exports = function makeWebpackConfig(options) {
      * Should be an empty object if it's generating a test build
      * Karma will set this when it's a test build
      */
-    if(TEST) {
+    if (TEST) {
         config.entry = {};
     } else {
         config.entry = {
@@ -62,7 +62,7 @@ module.exports = function makeWebpackConfig(options) {
      * Should be an empty object if it's generating a test build
      * Karma will handle setting it up for you when it's a test build
      */
-    if(TEST) {
+    if (TEST) {
         config.output = {};
     } else {
         config.output = {
@@ -86,7 +86,7 @@ module.exports = function makeWebpackConfig(options) {
 
 
 
-    if(TEST) {
+    if (TEST) {
         config.resolve = {
             modulesDirectories: [
                 'node_modules'
@@ -100,9 +100,9 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: http://webpack.github.io/docs/configuration.html#devtool
      * Type of sourcemap to use per build type
      */
-    if(TEST) {
+    if (TEST) {
         config.devtool = 'inline-source-map';
-    } else if(BUILD || DEV) {
+    } else if (BUILD || DEV) {
         config.devtool = 'source-map';
     } else {
         config.devtool = 'eval';
@@ -179,10 +179,12 @@ module.exports = function makeWebpackConfig(options) {
                 //
                 // Reference: https://github.com/webpack/style-loader
                 // Use style-loader in development for hot-loading
-                ? ExtractTextPlugin.extract('style', 'css!postcss')
+                ?
+                ExtractTextPlugin.extract('style', 'css!postcss')
                 // Reference: https://github.com/webpack/null-loader
                 // Skip loading css in test mode
-                : 'null'
+                :
+                'null'
         }]
     };
 
@@ -195,7 +197,7 @@ module.exports = function makeWebpackConfig(options) {
     // Reference: https://github.com/ColCh/isparta-instrumenter-loader
     // Instrument JS files with Isparta for subsequent code coverage reporting
     // Skips node_modules and spec files
-    if(TEST) {
+    if (TEST) {
         config.module.preLoaders.push({
             //delays coverage til after tests are run, fixing transpiled source coverage error
             test: /\.js$/,
@@ -240,10 +242,17 @@ module.exports = function makeWebpackConfig(options) {
         // Disabled when in test mode or not in build mode
         new ExtractTextPlugin('[name].[hash].css', {
             disable: !BUILD || TEST
+        }),
+
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            'window.$': "jquery",
+            'window.jQuery': "jquery"
         })
     ];
 
-    if(!TEST) {
+    if (!TEST) {
         config.plugins.push(new CommonsChunkPlugin({
             name: 'vendor',
 
@@ -251,28 +260,28 @@ module.exports = function makeWebpackConfig(options) {
             // (Give the chunk a different name)
 
             minChunks: Infinity
-            // (with more entries, this ensures that no other module
-            //  goes into the vendor chunk)
+                // (with more entries, this ensures that no other module
+                //  goes into the vendor chunk)
         }));
     }
 
     // Skip rendering index.html in test mode
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render index.html
-    if(!TEST) {
+    if (!TEST) {
         let htmlConfig = {
             template: 'client/_index.html',
             filename: '../client/index.html',
             alwaysWriteToDisk: true
         }
         config.plugins.push(
-          new HtmlWebpackPlugin(htmlConfig),
-          new HtmlWebpackHarddiskPlugin()
+            new HtmlWebpackPlugin(htmlConfig),
+            new HtmlWebpackHarddiskPlugin()
         );
     }
 
     // Add build specific plugins
-    if(BUILD) {
+    if (BUILD) {
         config.plugins.push(
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
             // Only emit files when there are no errors
@@ -304,7 +313,7 @@ module.exports = function makeWebpackConfig(options) {
         );
     }
 
-    if(DEV) {
+    if (DEV) {
         config.plugins.push(
             // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
             // Define free global variables
@@ -318,7 +327,7 @@ module.exports = function makeWebpackConfig(options) {
 
     config.cache = DEV;
 
-    if(TEST) {
+    if (TEST) {
         config.stats = {
             colors: true,
             reasons: true

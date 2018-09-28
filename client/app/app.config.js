@@ -1,9 +1,10 @@
 'use strict';
 
-export function routeConfig($urlRouterProvider, $locationProvider) {
-  'ngInject';
+export function routeConfig($urlRouterProvider, $locationProvider, $qProvider) {
+    'ngInject';
 
-  $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/');
+    //$qProvider.errorOnUnhandledRejections(false);
 
-  $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
 }
