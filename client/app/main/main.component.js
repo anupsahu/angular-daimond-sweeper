@@ -53,7 +53,7 @@ export class MainController {
         return arr;
     }
 
-
+    //Set or Reset the original state of the application
     init = () => {
         this.daimonds = this.randomGenerator(this.daimondCount);
         console.log(this.daimonds);
@@ -63,8 +63,13 @@ export class MainController {
         }
     }
 
+    //Adjust default configuration of the application
     config = () => {
+
+        //Added because scope of this gets overwritten by ModalService
+        //own scope
         var that = this;
+
         this.ModalService.showModal({
             template: require("./config/config.html"),
             controller: "configController",
@@ -75,20 +80,22 @@ export class MainController {
                 diamond: this.daimondCount
             }
         }).then(function(modal) {
-            // The modal object has the element built, if this is a bootstrap modal
-            // you can call 'modal' to show it, if it's a custom modal just show or hide
-            // it as you need to.
+
             modal.element.modal();
+
+            //Update the configuration changes
             modal.close.then(function(result) {
                 that.rows = result.rows;
                 that.columns = result.columns;
                 that.daimondCount = result.diamond;
 
+                //Reset configuration based on changes
                 that.init();
             });
         });
     }
 
+    //Function to store current state of game to LocalStorage
     save = () => {
         if (this.score === this.daimondCount) {
             alert('Game is Over');
@@ -107,17 +114,24 @@ export class MainController {
         }
     }
 
+    //Counter to know track clicks
+    counter = () => this.cell++;
+
+    //Fetches the Row number of a particual cell
     getRowNumber = (cell) => Math.ceil(cell / this.rows);
 
+    //Fetches the Column number of a partical cell
     getColumnNumber = (cell) => {
         let col = cell % this.columns;
 
+        //As we assume the cell number starts from 1
         if (col === 0)
             col = this.columns;
 
         return col;
     }
 
+    //Loads the state back of game back from LocalStorage
     resume = () => {
         this.daimonds = JSON.parse(localStorage.getItem('diamonds'));
         this.myClass = JSON.parse(localStorage.getItem('class'));
@@ -129,6 +143,7 @@ export class MainController {
         this.daimondCount = config.diamond;
     }
 
+    //Function to calculate the hint for daimond location
     hint = (cell) => {
         let cellRow = this.getRowNumber(cell);
         let cellColumn = this.getColumnNumber(cell);
@@ -154,11 +169,9 @@ export class MainController {
     //on array instead of an integer
     range = (num) => new Array(num);
 
-    //Counter to know track clicks
-    counter = () => this.cell++;
-
+    //Function to executes on each click
+    //Checks if the cell has a daimond or not
     check = (cell) => {
-        console.log(cell);
         if (this.daimonds.length > 0) {
             if (_.includes(this.daimonds, cell)) {
                 this.myClass[cell - 1] = 'diamond';

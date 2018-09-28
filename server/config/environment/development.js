@@ -5,12 +5,4 @@
 // ==================================
 module.exports = {
 
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://localhost/daimondsweeper-dev'
-  },
-
-  // Seed database on startup
-  seedDB: true
-
 };
