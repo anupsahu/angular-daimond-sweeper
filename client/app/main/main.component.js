@@ -19,8 +19,8 @@ export class MainController {
         'ngInject';
         this.scope = $scope;
         this.ModalService = ModalService;
-        this.rows = 3;
-        this.columns = 3;
+        this.rows = 8;
+        this.columns = 8;
         this.cell = 1;
         this.daimondCount = 5;
         this.init();
@@ -133,14 +133,19 @@ export class MainController {
 
     //Loads the state back of game back from LocalStorage
     resume = () => {
-        this.daimonds = JSON.parse(localStorage.getItem('diamonds'));
-        this.myClass = JSON.parse(localStorage.getItem('class'));
-        this.score = JSON.parse(localStorage.getItem('score'));
-        let config = JSON.parse(localStorage.getItem('config'));
 
-        this.rows = config.rows;
-        this.columns = config.columns;
-        this.daimondCount = config.diamond;
+        if (localStorage.hasOwnProperty('score')) {
+            this.daimonds = JSON.parse(localStorage.getItem('diamonds'));
+            this.myClass = JSON.parse(localStorage.getItem('class'));
+            this.score = JSON.parse(localStorage.getItem('score'));
+            let config = JSON.parse(localStorage.getItem('config'));
+
+            this.rows = config.rows;
+            this.columns = config.columns;
+            this.daimondCount = config.diamond;
+        } else {
+            swal("A saved game does not exist", "", "error");
+        }
     }
 
     //Function to calculate the hint for daimond location
@@ -172,6 +177,8 @@ export class MainController {
     //Function to executes on each click
     //Checks if the cell has a daimond or not
     check = (cell) => {
+
+        //check if all the daimonds are discovered
         if (this.daimonds.length > 0) {
             if (_.includes(this.daimonds, cell)) {
                 this.myClass[cell - 1] = 'diamond';
