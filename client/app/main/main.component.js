@@ -1,7 +1,6 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './main.routes';
-import config from './config/config.controller';
 
 export class MainController {
     rows;
@@ -61,38 +60,6 @@ export class MainController {
         for (var i = 0; i < (this.rows * this.columns); i++) {
             this.myClass[i] = 'unknown';
         }
-    }
-
-    //Adjust default configuration of the application
-    config = () => {
-
-        //Added because scope of this gets overwritten by ModalService
-        //own scope
-        var that = this;
-
-        this.ModalService.showModal({
-            template: require("./config/config.html"),
-            controller: "configController",
-            controllerAs: 'vm',
-            inputs: {
-                rows: this.rows,
-                columns: this.columns,
-                diamond: this.daimondCount
-            }
-        }).then(function(modal) {
-
-            modal.element.modal();
-
-            //Update the configuration changes
-            modal.close.then(function(result) {
-                that.rows = result.rows;
-                that.columns = result.columns;
-                that.daimondCount = result.diamond;
-
-                //Reset configuration based on changes
-                that.init();
-            });
-        });
     }
 
     //Function to store current state of game to LocalStorage
@@ -197,7 +164,7 @@ export class MainController {
     }
 }
 
-export default angular.module('daimondSweeperApp.main', [uiRouter, config])
+export default angular.module('daimondSweeperApp.main', [uiRouter])
     .config(routing)
     .component('main', {
         template: require('./main.html'),

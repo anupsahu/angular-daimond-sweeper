@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col align-self-center">
-            Score - {{ vm.score }}
+            Score - {{ vm.score + ' / ' + vm.daimondCount}}
         </div>
     </div>
     <div class="row">
@@ -31,7 +31,6 @@
             <button type="button" ng-click="vm.save()" class="btn btn-success p-10">Save</button>
             <button type="button" ng-click="vm.resume()" class="btn btn-info p-10">Resume</button>
             <button ng-click="vm.init()" type="button" class="btn btn-danger p-10">Reset</button>
-            <button type="button" ng-click="vm.config()" class="btn btn-dark"><i class="fa fa-cog" style="font-size: 2em !important;"></i></button>
         </div>
     </div>
 </div>
